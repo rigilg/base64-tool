@@ -8,35 +8,41 @@ Live site: https://base64.rigilgilbert.com/
 
 - UTF-8 text, including Unicode and emoji
 - Standard and URL-safe Base64
-- Validation of alphabet, length, padding, canonical bits, and UTF-8
+- Strict input validation
 - Copy, download, clear, examples, and swapping output into input
-- Responsive layout and keyboard shortcut: Ctrl/Cmd + Enter
-- No dependencies, tracking, browser storage, or conversion server
+- Responsive layout; Ctrl/Cmd + Enter to convert
+- No dependencies, analytics, browser storage, or conversion server
 
-Base64 is encoding, not encryption. This version handles text rather than binary files and limits each input to two million characters.
+Base64 is encoding, not encryption. This version handles text, not binary files, and limits each input to two million characters.
 
 ## Run locally
 
-Open `index.html` in a browser, or serve this directory:
+Open index.html or run:
 
 ```sh
 python -m http.server 8765
 ```
 
-Then visit http://localhost:8765. Clipboard support may depend on browser permissions and secure-context rules.
+Visit http://localhost:8765. Clipboard support depends on browser secure-context rules and permissions.
 
-## Files
+## Checks
 
-- `index.html`: page structure
-- `style.css`: responsive styling
-- `codec.js`: encoding and strict decoding
-- `app.js`: interface behavior
-- `_headers`: Cloudflare Pages security headers
+Requires Node.js 22 or later.
 
-## Deployment
+```sh
+node --check app.js
+node --check codec.js
+node --test tests/codec.test.cjs
+```
 
-Hosted on Cloudflare Pages as `rigil-base64` using Direct Upload. Upload the five site files above from the Cloudflare Pages dashboard when publishing changes. No build command is needed.
+## Automatic deployment
 
-Custom domain: `base64.rigilgilbert.com`. Porkbun DNS has a CNAME with host `base64` pointing to `rigil-base64.pages.dev`.
+The GitHub Actions workflow in .github/workflows/deploy.yml checks JavaScript syntax and Base64 behavior on pull requests and pushes to main. After checks pass on main, it uploads only index.html, style.css, app.js, codec.js, and _headers to the existing Cloudflare Pages project rigil-base64.
 
-Checking code into GitHub does not automatically redeploy this Direct Upload project.
+Merging into main or pushing directly to main starts production deployment. Deployment takes time to run; it is not instantaneous. Pull requests run checks without deploying. The workflow can also be run manually from the Actions tab on main.
+
+Required repository Actions secret: CLOUDFLARE_API_TOKEN, granting Cloudflare Pages Edit on the hosting account. The workflow contains the non-secret account ID. Never commit token values to source.
+
+Credential setup and an initial successful deployment must be completed before treating automatic deployment as operational.
+
+The custom domain base64.rigilgilbert.com uses a Porkbun CNAME pointing to rigil-base64.pages.dev.
