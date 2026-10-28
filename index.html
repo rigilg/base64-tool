@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Base64 — Rigil Gilbert</title>
+<meta name="description" content="Encode and decode Base64 text instantly in your browser. Unicode and URL-safe support. No uploads, accounts, or tracking.">
+<link rel="stylesheet" href="style.css"><script src="codec.js" defer></script><script src="app.js" defer></script>
+</head>
+<body>
+<header><a href="https://rigilgilbert.com" class="brand">RG<span> / tools</span></a><span class="private"><i></i> Runs on your device</span></header>
+<main>
+<div class="eyebrow">THE EVERYDAY TOOLKIT / 001</div>
+<h1>A little less encoded.</h1>
+<p class="intro">Text to Base64. Base64 to text. Simple, fast, and entirely in your browser.</p>
+<section class="tool" aria-label="Base64 converter">
+<div class="toolbar"><div class="modes" role="group" aria-label="Conversion mode"><button id="encode" aria-pressed="true">Encode</button><button id="decode" aria-pressed="false">Decode</button></div><label class="option"><input type="checkbox" id="urlsafe"> URL-safe Base64</label></div>
+<div class="editors">
+<div class="editor"><div class="editor-heading"><label for="input" id="input-label">Plain text</label><button class="quiet" id="example">Try an example ↗</button></div><textarea id="input" spellcheck="false" placeholder="Type or paste your text here…" aria-describedby="status"></textarea><div class="editor-footer"><span id="input-count">0 characters</span><button class="quiet" id="clear">Clear</button></div></div>
+<div class="editor result"><div class="editor-heading"><label for="output" id="output-label">Base64 output</label><span class="output-tag">OUTPUT</span></div><textarea id="output" readonly spellcheck="false" placeholder="Your result will appear here…"></textarea><div class="editor-footer"><span id="output-count">0 characters</span><div><button class="quiet" id="download" disabled>Download</button><button class="copy" id="copy" disabled>Copy result</button></div></div></div>
+</div>
+<div class="actions"><button class="primary" id="convert">Encode text <span>→</span></button><button class="quiet" id="swap">⇄ Use result as input</button><span class="shortcut">Ctrl / ⌘ + Enter</span></div>
+<p id="status" role="status" aria-live="polite">Ready when you are.</p>
+</section>
+<div class="notes"><article><span>01 / PRIVATE BY DESIGN</span><h2>Your text stays yours.</h2><p>Conversions happen on your device. This tool sends no text to a server and uses no analytics or browser storage.</p></article><article><span>02 / BUILT FOR REAL TEXT</span><h2>Hello, 世界. 👋</h2><p>UTF-8 support handles accents, non-Latin scripts, and emoji. URL-safe mode uses the alternative alphabet and omits padding.</p></article><article><span>03 / GOOD TO KNOW</span><h2>Encoding ≠ encryption.</h2><p>Base64 is a way to represent data as text. Anyone can decode it, so it does not protect passwords or secrets.</p></article></div>
+</main><footer><span>Rigil Gilbert / Base64</span><span>No accounts. No tracking. Just a useful tool.</span></footer>
+</body></html>
