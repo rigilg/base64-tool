@@ -1,33 +1,65 @@
 # Base64 Tool
 
-A lightweight, browser-only Base64 encoder and decoder.
+A lightweight Base64 encoder and decoder that runs entirely in your browser.
 
-Live site: https://base64.rigilgilbert.com/
+**[Use the live tool](https://base64.rigilgilbert.com/)**
 
 ## Features
 
-- UTF-8 text, including Unicode and emoji
-- Standard and URL-safe Base64
-- Strict input validation
-- Copy, download, clear, examples, and swapping output into input
-- Responsive layout; Ctrl/Cmd + Enter to convert
-- No dependencies, analytics, browser storage, or conversion server
+- Encode UTF-8 text to Base64 and decode Base64 back to text.
+- Support Unicode, accents, non-Latin scripts, and emoji.
+- Choose standard Base64 or the URL-safe alphabet.
+- Copy or download results as a text file.
+- Swap the result into the input to reverse a conversion.
+- Try an example, clear the input, or convert with **Ctrl/Cmd + Enter**.
+- Responsive layout with labeled controls and conversion status messages.
+- No external libraries, analytics, or browser storage.
 
-Base64 is encoding, not encryption. This version handles text, not binary files, and limits each input to two million characters.
+## Usage
+
+1. Choose **Encode** or **Decode**.
+2. Paste your input.
+3. Enable **URL-safe Base64** if your input or desired output uses that format.
+4. Select the conversion button, then copy or download the result.
+
+URL-safe encoding uses `-` and `_` instead of `+` and `/` and omits trailing padding. Decoding accepts whitespace and valid unpadded input, and checks the alphabet, length, padding, canonical encoding, and UTF-8 validity.
+
+Editing the input or changing the format clears the previous result so it cannot be mistaken for a new conversion.
+
+## Privacy and limitations
+
+Conversions happen locally. The tool does not upload input or output, save conversion history, or track visitors. Copying places the result on your clipboard; downloading saves a text file on your device.
+
+- **Base64 is encoding, not encryption.** It does not protect passwords or other secrets.
+- This tool handles UTF-8 text, not arbitrary binary files. Invalid UTF-8 data produces an error.
+- Input is limited to two million JavaScript string units per conversion.
+- Clipboard access depends on browser permissions and secure-context support.
 
 ## Run locally
 
-Open index.html or run:
+No installation or build step is needed. Open `index.html` in a browser, or serve the project folder:
 
 ```sh
 python -m http.server 8765
 ```
 
-Visit http://localhost:8765. Clipboard support depends on browser secure-context rules and permissions.
+Then visit [localhost:8765](http://localhost:8765/).
 
-## Checks
+## Project structure
 
-Requires Node.js 22 or later.
+| File | Purpose |
+| --- | --- |
+| `index.html` | Page structure and controls |
+| `style.css` | Responsive styling |
+| `codec.js` | UTF-8 encoding and Base64 validation |
+| `app.js` | Interface interactions |
+| `_headers` | Security headers for compatible hosting |
+| `tests/codec.test.cjs` | Conversion and validation checks |
+| `.github/workflows/deploy.yml` | CI checks and deployment workflow |
+
+## Development checks
+
+Use Node.js 22 or later:
 
 ```sh
 node --check app.js
@@ -35,14 +67,16 @@ node --check codec.js
 node --test tests/codec.test.cjs
 ```
 
-## Automatic deployment
+The tests cover known vectors, Unicode round trips, whitespace, unpadded input, URL-safe mode, and invalid input.
 
-The GitHub Actions workflow in .github/workflows/deploy.yml checks JavaScript syntax and Base64 behavior on pull requests and pushes to main. After checks pass on main, it uploads only index.html, style.css, app.js, codec.js, and _headers to the existing Cloudflare Pages project rigil-base64.
+## Contributing and releases
 
-Merging into main or pushing directly to main starts production deployment. Deployment takes time to run; it is not instantaneous. Pull requests run checks without deploying. The workflow can also be run manually from the Actions tab on main.
+1. Create a branch or fork and make your changes.
+2. Run the development checks.
+3. Open a pull request targeting `main`.
 
-Required repository Actions secret: CLOUDFLARE_API_TOKEN, granting Cloudflare Pages Edit on the hosting account. The workflow contains the non-secret account ID. Never commit token values to source.
+Pull requests run checks without deploying. The maintainer reviews changes and merges them in GitHub once required checks pass. Direct pushes to `main` are blocked by branch protection.
 
-Credential setup and an initial successful deployment must be completed before treating automatic deployment as operational.
+Merging into `main` triggers the production deployment automatically after CI passes. A manual workflow run on `main` can redeploy the current version. Deployment progress is available in the repository's **Actions** tab.
 
-The custom domain base64.rigilgilbert.com uses a Porkbun CNAME pointing to rigil-base64.pages.dev.
+Hosting credentials are managed outside the source code. Do not include credentials, tokens, or personal data in commits, issues, or pull requests.
